@@ -28,7 +28,14 @@ jobs:
           cd nginx-quic
 
           git remote add hg "hg::https://hg.nginx.org/nginx-quic"
-          git pull hg master
+          git fetch hg --force
+
+          git checkout quic
+          git branch --set-upstream-to=hg/branches/quic
+          git pull
+
+          git checkout default
+          git branch --set-upstream-to=hg/branches/default
+          git pull
 
           git push origin --all
-          git push origin --tags
