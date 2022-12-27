@@ -1,0 +1,26 @@
+name: "Mirror nginx-quic to GitHub"
+on:
+  schedule:
+    - cron: "45 6 * * *"
+  push:
+  pull_request:
+
+jobs:
+  mirror:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          set -ex
+
+          apt-get update -y
+          apt-get install -y git-remote-hg
+
+          git clone https://github.com/nginx-quic/nginx-quic.git
+          cd nginx-quic
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/nginx-quic/nginx-quic.git
+
+          git remote add hg "hg::https://hg.nginx.org/nginx-quic"
+          git pull hg master
+
+          git push origin --all
+          git push origin --tags
