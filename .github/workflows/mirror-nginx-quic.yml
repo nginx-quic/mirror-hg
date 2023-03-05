@@ -1,7 +1,7 @@
 name: "Mirror nginx-quic to GitHub"
 on:
   schedule:
-    - cron: "45 6 * * *"
+    - cron: "50 6 * * *"
   push:
   pull_request:
 
